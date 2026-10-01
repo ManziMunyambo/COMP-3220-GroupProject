@@ -1,8 +1,15 @@
 import java.util.Scanner;
 import java.time.LocalDate;
-import java.time.DateTimeException;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.time.format.ResolverStyle;
+
+import com.example.clinicbookingsystem.model.Patient;
 
 public class PatientRegistration {
+    // this is just to make sure the date is parsed correctly (nth too serious)
+    private static final DateTimeFormatter DATE_FORMATTER =
+            DateTimeFormatter.ofPattern("MM-dd-uuuu").withResolverStyle(ResolverStyle.STRICT);
     private Database database; //"database" is just a template. I'll change this once Ashlynn's code is pulled
 
     public PatientRegistration(Database database){
@@ -43,7 +50,7 @@ public class PatientRegistration {
             return null;
         }
 
-        LocalDate dateOfBirth = LocalDate.parse(dobString);
+        LocalDate dateOfBirth = LocalDate.parse(dobString, DATE_FORMATTER);
         Patient newPatient = new Patient(healthCardNumber, fullName, address, email, dateOfBirth, username, password);
 
         System.out.print("\n\nInitial Health Notes/Allergies (Press Enter to skip): ");
@@ -87,12 +94,12 @@ public class PatientRegistration {
         }
 
         try{
-            LocalDate dob = LocalDate.parse(dobString);
-            if(dobString.isAfter(LocalDate.now())){
+            LocalDate dob = LocalDate.parse(dobString, DATE_FORMATTER);
+            if(dob.isAfter(LocalDate.now())){
                 System.out.print("\nYou're born in the future? Yeah...sure thing pal");
                 return false;
             }
-        } catch (DateTimeException e){
+        } catch (DateTimeParseException e){
             System.out.print("\nRegistration failure - Date must be in MM-DD-YYYY format");
             return false;
         }

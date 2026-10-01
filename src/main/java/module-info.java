@@ -5,4 +5,5 @@ module com.example.clinicbookingsystem {
 
     opens com.example.clinicbookingsystem to javafx.fxml;
     exports com.example.clinicbookingsystem;
+    exports com.example.clinicbookingsystem.model;
 }
