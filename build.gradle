@@ -5,7 +5,7 @@ plugins {
     id 'org.openjfx.javafxplugin' version '0.1.0'
 }
 
-group = 'com.comp3220_group5'
+//group = 'com.comp3220_group5'
 version = '1.0-SNAPSHOT'
 
 //Automatically download external libraries from mavenCentral
@@ -30,7 +30,7 @@ dependencies {
 
 // Main application class
 application {
-    mainClass = 'com.comp3220_group5.COMP3220GroupProject.main' 
+    mainClass = 'Main' 
 }
 
 tasks.named('test') {

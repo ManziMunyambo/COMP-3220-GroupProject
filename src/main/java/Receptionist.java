@@ -2,11 +2,11 @@ public class Receptionist{
     //Define attributes
 
     //RID is the recceptionist's unique id 
-    int RID;
-    String firstName;
-    String lastName;
+    private int RID;
+    private String firstName;
+    private String lastName;
     //Each receptionist has a password for the system
-    String password;
+    private String password;
 
     //Constructor for Receptionist
     public Receptionist(int id, String fname, String lname, String pword){
@@ -17,22 +17,22 @@ public class Receptionist{
     }
 
     //Getter method for RID
-    public int GetRID(){
+    public int getRID(){
         return this.RID;
     }
 
     //Getter method for firstName
-    public String GetFirstName(){
+    public String getFirstName(){
         return this.firstName;
     }
 
     //Getter method for lastName
-    public String GetLastName(){
+    public String getLastName(){
         return this.lastName;
     }
 
     //Getter method for password
-    public String GetPassword(){
+    public String getPassword(){
         return this.password;
     }
 }
