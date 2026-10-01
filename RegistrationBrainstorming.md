@@ -51,7 +51,7 @@ Now...what methods should each file have?
 
 PatientRegistration.java 
 * Patient registerPatient(Scanner) - creates a new Patient with the info given by Receptionist
-* void savePatient(Patient) - adds a new Patient record into the database
+* void savePatient(Patient) - adds a brand new Patient record into the database
 * bool isDuplicate(healthCardNumber) - checks if a patient is a duplicate
 * bool validatePatient(healthCardNumber) - ensures all fields are filled in and format properly
 
@@ -60,4 +60,3 @@ ReceptionistRegistration.java
 * void saveReceptionist(Receptionist) - adds a new Receptionist record into the database
 * bool validateReceptionist(employeeID) - ensures all fields are filled in and formatted properly
 * String generatedEmployeeID() - assigns an employee ID to a Receptionist
-

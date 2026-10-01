@@ -80,5 +80,6 @@ public class ReceptionistRegistration {
         }
 
         return true;
+        //test
     }
 }
