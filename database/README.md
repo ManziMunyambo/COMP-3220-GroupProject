@@ -1,0 +1,1 @@
+This folder contains a base SQLite database.
