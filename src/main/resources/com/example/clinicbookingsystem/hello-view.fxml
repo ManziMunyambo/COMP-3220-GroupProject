@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="CENTER" prefHeight="357.0" prefWidth="257.0" spacing="20.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="com.example.clinicbookingsystem.HelloController">
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
+   <children>
+      <Label text="Clinic Portal Login">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Label>
+      <RadioButton fx:id="patientRadio" mnemonicParsing="false" selected="true" text="Patient">
+         <toggleGroup>
+            <ToggleGroup fx:id="roleGroup" />
+         </toggleGroup>
+      </RadioButton>
+      <RadioButton fx:id="staffRadio" mnemonicParsing="false" text="Staff/Receptionist" toggleGroup="$roleGroup" />
+      <TextField fx:id="idField" promptText="Enter ID or Username" />
+      <Button mnemonicParsing="false" onAction="#handleLogin" text="Sign In" />
+      <Label fx:id="messageLabel" />
+   </children>
+</VBox>
