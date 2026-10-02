@@ -10,12 +10,11 @@ public class PatientRegistration {
     // this is just to make sure the date is parsed correctly (nth too serious)
     private static final DateTimeFormatter DATE_FORMATTER =
             DateTimeFormatter.ofPattern("MM-dd-uuuu").withResolverStyle(ResolverStyle.STRICT);
-    private Database database; //"database" is just a template. I'll change this once Ashlynn's code is pulled
+    private Database database = new Datbase("database/clinic.db"); 
 
     public PatientRegistration(Database database){
         this.database = database;
     }
-
 
     public Patient registerPatient(Scanner input){
         System.out.println("\n --- REGISTERING NEW PATIENT --- \n");
@@ -45,6 +44,8 @@ public class PatientRegistration {
 
         System.out.print("\nLogin portal Password ");
         String password = input.nextLine().trim();
+
+        input.close();
 
         if(!validatePatient(healthCardNumber, fullName, address, email, dobString, username, password)){
             return null;

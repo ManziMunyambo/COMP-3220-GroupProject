@@ -1,9 +1,12 @@
 import java.util.Scanner;
 import java.time.LocalDate;
 import java.time.DateTimeException; 
+import java.time.format.DateTimeParseException;
+import java.time.format.ResolverStyle;
 
 public class ReceptionistRegistration {
-    private Database database; //"database" is just a template. I'll change this once Ashlynn's code is pulled
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("MM-dd-uuuu").withResolverStyle(ResolverStyle.STRICT);
+    private Database database = new Database("database/clinic.db"); 
 
     public ReceptionistRegistration(Database database){
         this.database = database;
@@ -17,7 +20,7 @@ public class ReceptionistRegistration {
 
         System.out.print("\nAddress: ");
         String address = input.nextLine().trim();
-
+        
         System.out.print("\nEmail: ");
         String email = input.nextLine().trim();
 
@@ -29,6 +32,8 @@ public class ReceptionistRegistration {
 
         System.out.print("\nSystem Password ");
         String password = input.nextLine().trim();
+
+        input.close();
 
         String employeeID = generateEmployeeID();
 
