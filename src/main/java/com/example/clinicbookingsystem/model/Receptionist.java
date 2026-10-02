@@ -1,3 +1,9 @@
+package com.example.clinicbookingsystem.model;
+
+//Import date time
+import java.time.LocalDate;
+
+
 public class Receptionist extends User{
     //Define attributes
 
@@ -5,7 +11,7 @@ public class Receptionist extends User{
     private int RID;
 
     //Constructor for Receptionist
-    public Receptionist(int id, String name, String address, String email, String birthDate, String uname, String pword){
+    public Receptionist(int id, String name, String address, String email, LocalDate birthDate, String uname, String pword){
         super(name, address, email, birthDate, uname, pword);
         this.RID = id;
     }
