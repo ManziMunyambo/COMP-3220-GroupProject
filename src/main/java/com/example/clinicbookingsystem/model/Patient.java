@@ -13,7 +13,7 @@ public class Patient extends User {
     private final String bloodType;
     private final String disability;
     private final List<String> medicalRecords = new ArrayList<>();
-    
+
     public Patient(
             String healthCardNumber,
             String fullName,

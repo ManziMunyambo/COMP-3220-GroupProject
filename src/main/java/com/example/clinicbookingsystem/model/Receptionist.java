@@ -5,7 +5,7 @@ public class Receptionist extends User{
     private int RID;
 
     //Constructor for Receptionist
-    public Receptionist(int id, String name, String address, String email, String birhtDate, String uname, String pword){
+    public Receptionist(int id, String name, String address, String email, String birthDate, String uname, String pword){
         super(name, address, email, birthDate, uname, pword);
         this.RID = id;
     }
