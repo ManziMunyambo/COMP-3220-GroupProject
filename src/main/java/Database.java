@@ -30,15 +30,24 @@ public class Database {
             //Define SQL command for creating tables
             String tableCreation = """
                 CREATE TABLE IF NOT EXISTS Patient(
-                    Pid INTEGER PRIMARY KEY,
-                    First_Name TEXT NOT NULL,
-                    Last_Name TEXT NOT NULL,
-                    Password TEXT NOT NULL
+                    Health_Card TEXT PRIMARY KEY,
+                    Full_Name TEXT NOT NULL,
+                    Address TEXT NOT NULL,
+                    Email TEXT NOT NULL,
+                    Date_Of_Birth TEXT NOT NULL,
+                    Username TEXT NOT NULL,
+                    Password TEXT NOT NULL,
+                    Sex TEXT,
+                    Blood_Type TEXT,
+                    Disability TEXT
                 );
                 CREATE TABLE IF NOT EXISTS Receptionist(
                     Rid INTEGER PRIMARY KEY,
-                    First_Name TEXT NOT NULL,
-                    Last_Name TEXT NOT NULL,
+                    Full_Name TEXT NOT NULL,
+                    Address TEXT NOT NULL,
+                    Email TEXT NOT NULL,
+                    Date_Of_Birth TEXT NOT NULL,
+                    Username TEXT NOT NULL,
                     Password TEXT NOT NULL
                 );
                 CREATE TABLE IF NOT EXISTS Doctor(
@@ -88,7 +97,7 @@ public class Database {
     }
 
     //selectPatient returns the patient entry based on the name and password provided
-    public Patient selectPatient(String first_Name, String last_Name, String password){
+    public Patient selectPatient(String health_Card){
         Connection conn = null;
         PreparedStatement pstmt = null;
         try{
@@ -98,25 +107,27 @@ public class Database {
             String patientSelect = """   
                 SELECT * 
                 FROM Patient P
-                WHERE P.First_Name = ?
-                AND P.Last_Name = ?
-                AND P.Password = ?;
+                WHERE P.Health_Card = ?
                     """;
             //Add arguments into dynamic SQL statement
             pstmt = conn.prepareStatement(patientSelect);
-            pstmt.setString(1, first_Name);
-            pstmt.setString(2, last_Name);
-            pstmt.setString(3, password);
+            pstmt.setString(1, health_Card);
             //Execute the command and store the result
             ResultSet rs = pstmt.executeQuery();
             //If a row is selected, return it as a Receptionist object
             if(rs.next()){
-                int pid_Returned = rs.getInt("Pid");
-                String first_Name_Returned = rs.getString("First_Name");
-                String last_Name_Returned = rs.getString("Last_Name");
+                int health_Card_Returned = rs.getInt("Health_Card");
+                String full_Name_Returned = rs.getString("Full_Name");
+                String address_Returned = rs.getString("Address");
+                String email_Returned = rs.getString("Email");
+                String birth_Date_Returned = rs.getString("Date_Of_Birth");
+                String uname_Returned = rs.getString("Username");
                 String password_Returned = rs.getString("Password");
+                String sex_Returned = rs.getString("Sex");
+                String blood_Returned = rs.getString("Blood_Type");
+                String disability_Returned = rs.getString("Disability");
                 System.out.println("Patient found");
-                Patient CreatedPatient = new Patient(pid_Returned, first_Name_Returned, last_Name_Returned, password_Returned);
+                Patient CreatedPatient = new Patient(health_Card_Returned, full_Name_Returned, address_Returned, email_Returned, birth_Date_Returned, uname_Returned, password_Returned, sex_Returned, blood_Returned, disability_Returned);
                 return CreatedPatient;
             //If no row is selected, return null
             }else{
@@ -147,7 +158,7 @@ public class Database {
     }
 
     //selectReceptionist returns the receptionist entry based on the name and password provided
-    public Receptionist selectReceptionist(String first_Name, String last_Name, String password){
+    public Receptionist selectReceptionist(Int RID){
         Connection conn = null;
         PreparedStatement pstmt = null;
         try{
@@ -157,25 +168,24 @@ public class Database {
             String receptionistSelect = """   
                 SELECT * 
                 FROM Receptionist R
-                WHERE R.First_Name = ?
-                AND R.Last_Name = ?
-                AND R.Password = ?;
+                WHERE R.Rid = ?
                     """;
             //Add arguments into dynamic SQL statement
             pstmt = conn.prepareStatement(receptionistSelect);
-            pstmt.setString(1, first_Name);
-            pstmt.setString(2, last_Name);
-            pstmt.setString(3, password);
+            pstmt.setString(1, RID);
             //Execute the command and store the result
             ResultSet rs = pstmt.executeQuery();
             //If a row is selected, return it as a Receptionist object
             if(rs.next()){
                 int rid_Returned = rs.getInt("Rid");
-                String first_Name_Returned = rs.getString("First_Name");
-                String last_Name_Returned = rs.getString("Last_Name");
+                String full_Name_Returned = rs.getString("Full_Name");
+                String address_Returned = rs.getString("Address");
+                String email_Returned = rs.getString("Email");
+                String birthDate_Returned = rs.getString("Date_Of_Birth");
+                String uname_Returned = rs.getString("Username");
                 String password_Returned = rs.getString("Password");
                 System.out.println("Patient found");
-                Receptionist CreatedReceptionist = new Receptionist(rid_Returned, first_Name_Returned, last_Name_Returned, password_Returned);
+                Receptionist CreatedReceptionist = new Receptionist(rid_Returned, full_Name_Returned, address_Returned, email_Returned, birthDate_Returned, uname_Returned, password_Returned);
                 return CreatedReceptionist;
             //If no row is selected, return null
             }else{
@@ -214,15 +224,21 @@ public class Database {
             conn = DriverManager.getConnection(connectionString);
             //SQL query to add patient
             String addPatient = """
-                    INSERT INTO Patient (Pid, First_Name, Last_Name, Password)
-                    Values (?, ?, ?, ?)
+                    INSERT INTO Patient (Health_Card, Full_Name, Address, Email, Date_Of_Birth, Username, Password, Sex, Blood_Type, Disability)
+                    Values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                     """;
             //Add arguments to dynamic SQL
             pstmt = conn.prepareStatement(addPatient);
-            pstmt.setInt(1, P.getPID());
-            pstmt.setString(2, P.getFirstName());
-            pstmt.setString(3, P.getLastName());
-            pstmt.setString(4, P.getPassword());
+            pstmt.setInt(1, P.getHealthCardNumber());
+            pstmt.setString(2, P.getFullName());
+            pstmt.setString(3, P.getAddress());
+            pstmt.setString(4, P.getEmail());
+            pstmt.setString(5, P.getDateOfBirth());
+            pstmt.setString(6, P.getUsername());
+            pstmt.setString(7, P.getPassword());
+            pstmt.setString(8, P.getSex());
+            pstmt.setString(9, P.getBloodType());
+            pstmt.setString(10, P.getDisability());
             //Execute SQL query and store the number of rows impacted
             int rowsAdded = pstmt.executeUpdate();
             if(rowsAdded == 1){
@@ -266,15 +282,18 @@ public class Database {
             conn = DriverManager.getConnection(connectionString);
             //SQL query to add patient
             String addReceptionist = """
-                    INSERT INTO Receptionist (Rid, First_Name, Last_Name, Password)
-                    Values (?, ?, ?, ?)
+                    INSERT INTO Receptionist (Rid, Full_Name, Address, Email, Date_Of_Birth, Username, Password)
+                    Values (?, ?, ?, ?, ?, ?, ?)
                     """;
             //Add arguments to dynamic SQL
             pstmt = conn.prepareStatement(addReceptionist);
             pstmt.setInt(1, R.getRID());
-            pstmt.setString(2, R.getFirstName());
-            pstmt.setString(3, R.getLastName());
-            pstmt.setString(4, R.getPassword());
+            pstmt.setString(2, R.getFullName());
+            pstmt.setString(3, R.getAddress());
+            pstmt.setString(4, R.getEmail());
+            pstmt.setString(5, R.getDateOfBirth());
+            pstmt.setString(6, R.getUsername());
+            pstmt.setString(7, R.getPassword());
             //Execute SQL query and store the number of rows impacted
             int rowsAdded = pstmt.executeUpdate();
             if(rowsAdded == 1){
