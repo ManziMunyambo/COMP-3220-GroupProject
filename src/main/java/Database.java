@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.SQLException;
 
+//Import date time
+import java.time.LocalDate;
 
 public class Database {
     //Constants for connection to SQLite
@@ -116,18 +118,19 @@ public class Database {
             ResultSet rs = pstmt.executeQuery();
             //If a row is selected, return it as a Receptionist object
             if(rs.next()){
-                int health_Card_Returned = rs.getInt("Health_Card");
+                String health_Card_Returned = rs.getString("Health_Card");
                 String full_Name_Returned = rs.getString("Full_Name");
                 String address_Returned = rs.getString("Address");
                 String email_Returned = rs.getString("Email");
                 String birth_Date_Returned = rs.getString("Date_Of_Birth");
+                LocalDate birth_Date_Converted = LocalDate.parse(birth_Date_Returned);
                 String uname_Returned = rs.getString("Username");
                 String password_Returned = rs.getString("Password");
                 String sex_Returned = rs.getString("Sex");
                 String blood_Returned = rs.getString("Blood_Type");
                 String disability_Returned = rs.getString("Disability");
                 System.out.println("Patient found");
-                Patient CreatedPatient = new Patient(health_Card_Returned, full_Name_Returned, address_Returned, email_Returned, birth_Date_Returned, uname_Returned, password_Returned, sex_Returned, blood_Returned, disability_Returned);
+                Patient CreatedPatient = new Patient(health_Card_Returned, full_Name_Returned, address_Returned, email_Returned, birth_Date_Converted, uname_Returned, password_Returned, sex_Returned, blood_Returned, disability_Returned);
                 return CreatedPatient;
             //If no row is selected, return null
             }else{
@@ -158,7 +161,7 @@ public class Database {
     }
 
     //selectReceptionist returns the receptionist entry based on the name and password provided
-    public Receptionist selectReceptionist(Int RID){
+    public Receptionist selectReceptionist(int RID){
         Connection conn = null;
         PreparedStatement pstmt = null;
         try{
@@ -182,10 +185,11 @@ public class Database {
                 String address_Returned = rs.getString("Address");
                 String email_Returned = rs.getString("Email");
                 String birthDate_Returned = rs.getString("Date_Of_Birth");
+                LocalDate birthDate_Converted = LocalDate.parse(birthDate_Returned);
                 String uname_Returned = rs.getString("Username");
                 String password_Returned = rs.getString("Password");
                 System.out.println("Patient found");
-                Receptionist CreatedReceptionist = new Receptionist(rid_Returned, full_Name_Returned, address_Returned, email_Returned, birthDate_Returned, uname_Returned, password_Returned);
+                Receptionist CreatedReceptionist = new Receptionist(rid_Returned, full_Name_Returned, address_Returned, email_Returned, birthDate_Converted, uname_Returned, password_Returned);
                 return CreatedReceptionist;
             //If no row is selected, return null
             }else{
@@ -229,11 +233,12 @@ public class Database {
                     """;
             //Add arguments to dynamic SQL
             pstmt = conn.prepareStatement(addPatient);
-            pstmt.setInt(1, P.getHealthCardNumber());
+            pstmt.setString(1, P.getHealthCardNumber());
             pstmt.setString(2, P.getFullName());
             pstmt.setString(3, P.getAddress());
             pstmt.setString(4, P.getEmail());
-            pstmt.setString(5, P.getDateOfBirth());
+            String birthDate = P.getDateOfBirth().toString();
+            pstmt.setString(5, birthDate);
             pstmt.setString(6, P.getUsername());
             pstmt.setString(7, P.getPassword());
             pstmt.setString(8, P.getSex());
@@ -291,7 +296,8 @@ public class Database {
             pstmt.setString(2, R.getFullName());
             pstmt.setString(3, R.getAddress());
             pstmt.setString(4, R.getEmail());
-            pstmt.setString(5, R.getDateOfBirth());
+            birthDate = R.getDateOfBirth().toString();
+            pstmt.setString(5, birthDate);
             pstmt.setString(6, R.getUsername());
             pstmt.setString(7, R.getPassword());
             //Execute SQL query and store the number of rows impacted
