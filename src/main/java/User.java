@@ -1,5 +1,3 @@
-package com.example.clinicbookingsystem.model;
-
 import java.time.LocalDate;
 
 // this is the Shared account and profile data and patient is just a type of user.
