@@ -1,15 +1,24 @@
 Clinic Database Schema
 
 Patient
-- PID (Primary Key, Integer)
-- First_Name (Text)
-- Last_Name (Text)
+- Health_Card (Primary Key, Text)
+- Full_Name (Text)
+- Address (Text)
+- Email (Text)
+- Date_Of_Birth (Text)
+- Username (Text)
 - Password (Text)
+- Sex (Text)
+- Blood_Type (Text)
+- Disability (Text)
 
 Receptionist
 - RID (Primary Key, Integer)
-- First_Name (Text)
-- Last_Name (Text)
+- Full_Name (Text)
+- Address (Text)
+- Email (Text)
+- Date_Of_Birth (Text)
+- Username (Text)
 - Password (Text)
 
 Doctor

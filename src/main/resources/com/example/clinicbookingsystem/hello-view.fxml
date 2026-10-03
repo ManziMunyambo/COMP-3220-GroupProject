@@ -25,7 +25,7 @@
          </toggleGroup>
       </RadioButton>
       <RadioButton fx:id="staffRadio" mnemonicParsing="false" text="Staff/Receptionist" toggleGroup="$roleGroup" />
-      <TextField fx:id="idField" promptText="Enter ID" />
+      <TextField fx:id="idField" promptText="Enter RID (Receptionists) or Health Card # (Patients)" />
       <Button mnemonicParsing="false" onAction="#handleLogin" text="Sign In" />
       <Label fx:id="messageLabel" />
    </children>

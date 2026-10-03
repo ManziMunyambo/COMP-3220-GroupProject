@@ -6,6 +6,7 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 
 public class HelloController {
+    private Database database = new Database("database/clinic.db");
 
     @FXML
     private RadioButton patientRadio;
@@ -27,11 +28,19 @@ public class HelloController {
             messageLabel.setText("Please enter an ID to log in.");
             return;
         }
-
         if (patientRadio.isSelected()) {
-            messageLabel.setText("Navigating to Patient Dashboard for ID: " + enteredId);
+            if(database.selectPatient(enteredId) != null){
+                messageLabel.setText("Navigating to Patient Dashboard for ID: " + enteredId);
+
+            }else{
+                messageLabel.setText("Could not find the patient");
+            }
         } else if (staffRadio.isSelected()) {
-            messageLabel.setText("Navigating to Receptionist Dashboard for ID: " + enteredId);
+            if(database.selectReceptionist(Integer.parseInt(enteredId)) != null){
+                messageLabel.setText("Navigating to Receptionist Dashboard for ID: " + enteredId);
+            }else{
+                messageLabel.setText("Could not find the receptionist");
+            }        
         } else {
             messageLabel.setText("Please select a role.");
         }

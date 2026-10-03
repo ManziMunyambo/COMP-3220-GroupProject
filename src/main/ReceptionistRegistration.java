@@ -58,13 +58,9 @@ public class ReceptionistRegistration {
 
 
     boolean validateReceptionist(String employeeID, String fullName, String address, String email, String dobString, String username, String password){
+        //Validate types and form filled out
         if(employeeID.isEmpty() || fullName.isEmpty() || address.isEmpty() || email.isEmpty() || dobString.isEmpty() || username.isEmpty() || password.isEmpty()){
             System.out.print("\nRegistration failure - All fields are required");
-            return false;
-        }
-
-        if(database.usernameExists(username)){
-            System.out.print("\nRegistration failure - Username " + username + " is taken");
             return false;
         }
 
@@ -72,15 +68,24 @@ public class ReceptionistRegistration {
             System.out.print("\nRegistration failure - Invalid email format");
             return false;
         }
-
+        
+        LocalDate dob;
         try{
-            LocalDate dob = LocalDate.parse(dobString);
+            dob = LocalDate.parse(dobString);
             if(dobString.isAfter(LocalDate.now())){
                 System.out.print("\nYou're born in the future? Yeah...sure thing pal");
                 return false;
             }
         } catch (DateTimeException e){
             System.out.print("\nRegistration failure - Date must be in MM-DD-YYYY format");
+            return false;
+        }
+        //Check that Receptionist does not yet have an account
+        Receptionist R = new Receptionist(employeeID, fullName, address, email, dob, username, password);
+        if(database.selectReceptionist(R) == null){
+            System.out.println("Registration valid");
+        }else{
+            System.out.println("Account already exists");
             return false;
         }
 
