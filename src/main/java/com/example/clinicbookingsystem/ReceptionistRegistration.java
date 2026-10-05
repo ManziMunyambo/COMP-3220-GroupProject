@@ -31,27 +31,15 @@ public class ReceptionistRegistration {
         System.out.print("\nFull Name:");
         String fullName = input.nextLine().trim();
 
-        System.out.print("\nAddress: ");
-        String address = input.nextLine().trim();
-
-        System.out.print("\nEmail: ");
-        String email = input.nextLine().trim();
-
-        System.out.print("\nDate of Birth (MM-DD-YYYY): ");
-        String dobString = input.nextLine().trim();
-        LocalDate dateOfBirth = LocalDate.parse(dobString);
-
-        System.out.print("\nSystem Username: ");
-        String username = input.nextLine().trim();
+        System.out.print("\nSystem ID: ");
+        int id = Integer.parseInt(input.nextLine().trim());
 
         System.out.print("\nSystem Password ");
         String password = input.nextLine().trim();
 
         input.close();
 
-        Random rand = new Random();
-        int rid = rand.nextInt(101); //<- idk 
-        Receptionist receptionist = new Receptionist(rid, fullName, address, email, dateOfBirth, username, password);
+        Receptionist receptionist = new Receptionist(fullName, id, password);
         return receptionist;
     }
 

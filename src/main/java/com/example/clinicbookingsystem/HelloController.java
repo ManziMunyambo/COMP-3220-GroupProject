@@ -18,28 +18,34 @@ public class HelloController {
     private TextField idField;
 
     @FXML
+    private TextField passwordField;
+
+    @FXML
     private Label messageLabel;
 
     @FXML
     protected void handleLogin() {
         String enteredId = idField.getText().trim();
+        String enteredPassword = passwordField.getText().trim();
 
         if (enteredId.isEmpty()) {
             messageLabel.setText("Please enter an ID to log in.");
             return;
         }
         if (patientRadio.isSelected()) {
-            if(database.selectPatient(enteredId) != null){
-                messageLabel.setText("Navigating to Patient Dashboard for ID: " + enteredId);
+            int id = Integer.parseInt(enteredId);
+            if(database.selectPatient(id, enteredPassword) != null){
+                messageLabel.setText("Navigating to Patient Dashboard for ID: " + id);
 
             }else{
-                messageLabel.setText("Could not find the patient");
+                messageLabel.setText("Could not find the patient with specified ID and password");
             }
         } else if (staffRadio.isSelected()) {
-            if(database.selectReceptionist(Integer.parseInt(enteredId)) != null){
-                messageLabel.setText("Navigating to Receptionist Dashboard for ID: " + enteredId);
+            int id = Integer.parseInt(enteredId);
+            if(database.selectReceptionist(id, enteredPassword) != null){
+                messageLabel.setText("Navigating to Receptionist Dashboard for ID: " + id);
             }else{
-                messageLabel.setText("Could not find the receptionist");
+                messageLabel.setText("Could not find the receptionist with specified ID and password");
             }        
         } else {
             messageLabel.setText("Please select a role.");

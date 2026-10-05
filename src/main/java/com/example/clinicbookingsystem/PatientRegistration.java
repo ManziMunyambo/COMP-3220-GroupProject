@@ -20,32 +20,38 @@ public class PatientRegistration {
 
     public Patient registerPatient(Scanner input){
         System.out.println("\n --- REGISTERING NEW PATIENT --- \n");
-        
-        System.out.print("Health Card Number: ");
-        String healthCardNumber = input.nextLine();
 
         System.out.print("\nFull Name:");
         String fullName = input.nextLine().trim();
 
-        System.out.print("\nAddress: ");
-        String address = input.nextLine().trim();
-
-        System.out.print("\nEmail: ");
-        String email = input.nextLine().trim();
+        System.out.print("\nSystem ID:");
+        int id = Integer.parseInt(input.nextLine().trim());
 
         System.out.print("\nDate of Birth (MM-DD-YYYY): ");
         String dobString = input.nextLine().trim();
         LocalDate dateOfBirth = LocalDate.parse(dobString);
 
-        System.out.print("\nLogin portal Username: ");
-        String username = input.nextLine().trim();
+        System.out.print("\nAddress: ");
+        String address = input.nextLine().trim();
+
+        System.out.print("\nPhone Number (no hyphens): ");
+        int phone = Integer.parseInt(input.nextLine().trim());
+
+        System.out.print("\nEmail: ");
+        String email = input.nextLine().trim();
+
+        System.out.print("\nFamily Doctor: ");
+        String familyDoctor = input.nextLine().trim();
+
+        System.out.print("\nHealth Insurance Number: ");
+        int healthInsurance = Integer.parseInt(input.nextLine().trim());
 
         System.out.print("\nLogin portal Password ");
         String password = input.nextLine().trim();
 
         input.close();
 
-        Patient patient = new Patient(healthCardNumber, fullName, address, email, dateOfBirth, username, password);
+        Patient patient = new Patient(fullName, id, password, dateOfBirth, address, phone, email, familyDoctor, healthInsurance);
         return patient;
     }
     
