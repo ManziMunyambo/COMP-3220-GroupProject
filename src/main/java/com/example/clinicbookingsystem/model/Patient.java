@@ -9,9 +9,7 @@ import java.time.LocalDate;
 
 /** Patient-specific data plus the notes API already used by patient registration. */
 public class Patient extends User {
-    private LocalDate dateOfBirth;
-    private String address;
-    private int phoneNumber;
+    private Address address;
     private String email;
     private final List<String> medicalRecords = new ArrayList<>();
     private String familyDoctor;
@@ -26,10 +24,6 @@ public class Patient extends User {
         this.email = email;
         this.familyDoctor = familyDoctor;
         this.healthInsurance = healthInsurance;
-    }
-
-    public LocalDate getDateOfBirth() {
-        return dateOfBirth;
     }
 
     public String getAddress() {
