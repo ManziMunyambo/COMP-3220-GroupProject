@@ -24,10 +24,9 @@
             <ToggleGroup fx:id="roleGroup" />
          </toggleGroup>
       </RadioButton>
-      <RadioButton fx:id="staffRadio" mnemonicParsing="false" text="Staff/Receptionist" toggleGroup="$roleGroup" />
+      <RadioButton fx:id="staffRadio" mnemonicParsing="false" text="Staff" toggleGroup="$roleGroup" />
       <TextField fx:id="idField" promptText="Enter ID or Username" />
       <Button mnemonicParsing="false" onAction="#handleLogin" text="Sign In" />
-      <Button mnemonicParsing="false" text="Register" />
       <Label fx:id="messageLabel" />
    </children>
 </VBox>

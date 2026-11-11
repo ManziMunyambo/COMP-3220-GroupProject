@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="CENTER" spacing="15.0" prefWidth="400.0" prefHeight="450.0"
+      xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.example.clinicbookingsystem.StaffLoginController">
+
+    <padding>
+        <Insets top="30.0" right="30.0" bottom="30.0" left="30.0"/>
+    </padding>
+
+    <Label text="Staff Portal">
+        <font>
+            <Font name="System Bold" size="20.0" />
+        </font>
+    </Label>
+
+    <Label fx:id="staffIdLabel" text="Staff ID: " />
+
+    <PasswordField fx:id="passwordField" promptText="Enter Staff Password / Key" maxWidth="250.0" />
+
+    <Label fx:id="statusLabel" textFill="RED" />
+
+    <HBox alignment="CENTER" spacing="15.0">
+        <Button text="Back" onAction="#onBackButtonClick" />
+        <Button text="Sign In" onAction="#onSignInButtonClick" defaultButton="true" />
+    </HBox>
+
+</VBox>
