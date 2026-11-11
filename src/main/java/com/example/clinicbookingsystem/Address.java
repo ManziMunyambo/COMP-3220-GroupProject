@@ -9,8 +9,8 @@ public class Address {
     //getters    
     public String getStreetAddress(){return streetAddress;}
     public String getCity(){return city;}
-    public string getPostalCode(){return postalCode;}
-
+    public String getPostalCode(){return postalCode;}
+    
     //methods
     public boolean isComplete(){
         return false;
