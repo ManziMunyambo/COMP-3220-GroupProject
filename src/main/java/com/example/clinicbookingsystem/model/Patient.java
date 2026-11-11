@@ -8,19 +8,19 @@ import java.util.List;
 import java.time.LocalDate;
 
 /** Patient-specific data plus the notes API already used by patient registration. */
-public class Patient extends User {
+public class Patient extends Person {
     private Address address;
     private String email;
     private final List<String> medicalRecords = new ArrayList<>();
     private String familyDoctor;
     private int healthInsurance;
 
-    public Patient(String fullName, int id, String password, LocalDate dateOfBirth, String address,
-            int phoneNumber, String email, String familyDoctor, int healthInsurance) {
-        super(fullName, id, password);
-        this.dateOfBirth = dateOfBirth;
+
+    //Constructor
+    public Patient(String fullName, LocalDate dateOfBirth, ContactPreference contactInfo, int id, String password, Address address,
+            String email, String familyDoctor, int healthInsurance) {
+        super(fullName, dateOfBirth, contactInfo, id, password);
         this.address = address;
-        this.phoneNumber = phoneNumber;
         this.email = email;
         this.familyDoctor = familyDoctor;
         this.healthInsurance = healthInsurance;
@@ -57,5 +57,13 @@ public class Patient extends User {
 
     public List<String> getMedicalRecords() {
         return Collections.unmodifiableList(medicalRecords);
+    }
+
+    //Check that the expected fullName and dateOfBirth of the patient matches the actual patient
+    public Boolean verifyIdentity(String fullName, LocalDate dateOfBirth){
+        if(this.fullName.equals(fullName) && this.dateOfBirth.equals(dateOfBirth)){
+            return true;
+        }
+        return false;
     }
 }
