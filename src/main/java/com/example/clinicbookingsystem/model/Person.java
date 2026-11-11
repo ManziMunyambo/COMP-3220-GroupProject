@@ -1,6 +1,8 @@
 package com.example.clinicbookingsystem.model;
+import java.time.LocalDate;
+import com.example.clinicbookingsystem.*;
 
-// this is the Shared account and profile data - patient and receptionists are types of user.
+// this is the Shared account and profile data - Patient and Receptionist are types of Person.
 public abstract class Person {
     protected final String fullName;
     protected LocalDate dateOfBirth;
@@ -33,7 +35,7 @@ public abstract class Person {
     }
 
     //Update contact preference allows a Person to update its own contact preference
-    protected updateContactPreference(ContactPreference contactInfo){
+    protected void updateContactPreference(ContactPreference contactInfo){
         this.contactInfo = contactInfo;
     }
 }

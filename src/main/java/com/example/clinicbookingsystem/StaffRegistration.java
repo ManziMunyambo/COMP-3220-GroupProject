@@ -1,6 +1,11 @@
 package com.example.clinicbookingsystem;
+import com.example.clinicbookingsystem.*;
+import com.example.clinicbookingsystem.model.StaffMember;
 
 public class StaffRegistration extends Registration{
+    //constructor
+    public StaffRegistration(){}
+    
     @Override 
     public StaffMember register(){
         //fill in the body based on the input fields in the UI
