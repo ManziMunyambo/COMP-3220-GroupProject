@@ -1,5 +1,6 @@
 package com.example.clinicbookingsystem;
 import com.example.clinicbookingsystem.*;
+import com.example.clinicbookingsystem.model.StaffMember;
 
 public class StaffRegistration extends Registration{
     //constructor
