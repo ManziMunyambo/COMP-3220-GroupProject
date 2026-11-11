@@ -1,6 +1,10 @@
 package com.example.clinicbookingsystem;
+import com.example.clinicbookingsystem.*;
 
 public class PatientRegistration extends Registration {
+    //constructor
+    public PatientRegistration(){}
+    
     @Override 
     public Patient register(){
         //fill in the body based on the input boxes on the UI
