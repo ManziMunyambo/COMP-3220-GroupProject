@@ -6,6 +6,13 @@ public class Address {
     private String city;
     private String postalCode;
 
+    //Constructor
+    public Address(String streetAddress, String city, String postalCode){
+        this.streetAddress = streetAddress;
+        this.city = city;
+        this.postalCode = postalCode;
+    }
+
     //getters    
     public String getStreetAddress(){return streetAddress;}
     public String getCity(){return city;}
@@ -15,10 +22,5 @@ public class Address {
     public boolean isComplete(){
         return false;
         //fill in the body later
-    }
-
-    public void updatePostalCode(String city){
-        this.city = city;
-        //although this breaks encapsulation, some exceptions gotta be made
     }
 }

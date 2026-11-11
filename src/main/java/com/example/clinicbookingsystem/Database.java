@@ -205,6 +205,83 @@ public class Database {
         return null;
     }
 
+//selectPatientValidate returns the patient entry based on the name, address, and date of birth provided, used for validation because the pid has not been assigned
+public Patient selectPatientValidate(String fullName, Address address, LocalDate dateOfBirth){
+    Connection conn = null;
+    PreparedStatement pstmt = null;
+    try{
+        //Connect to database
+        conn = DriverManager.getConnection(connectionString);
+        //Define SQL query for receptionist
+        String patientSelect = """   
+            SELECT * 
+            FROM Patient P
+            WHERE P.Full_Name = ?
+            AND P.Street_Address = ?
+            AND P.City = ?
+            AND P.Postal_Code = ?
+            AND P.Date_Of_Birth = ?
+                """;
+        //Add arguments into dynamic SQL statement
+        pstmt = conn.prepareStatement(patientSelect);
+        pstmt.setInt(1, fullName);
+        pstmt.setString(2, address.streetAddress);
+        pstmt.setString(3, address.city);
+        pstmt.setString(4, address.postalCode);
+        pstmt.setString(5, dateOfBirth);
+        //Execute the command and store the result
+        ResultSet rs = pstmt.executeQuery();
+        //If a row is selected, return it as a Receptionist object
+        if(rs.next()){
+            String full_Name_Returned = rs.getString("Full_Name");
+            int id = rs.getInt("Pid");
+            LocalDate birth_Date_Returned = LocalDate.parse(rs.getString("Date_Of_Birth"));
+            String password = rs.getString("Password");
+            String street_Address_Returned = rs.getString("Street_Address");
+            String city_Returned = rs.getString("City");
+            String postal_Code_Returned = rs.getString("Postal_Code");
+            Address address_Returned = new Address(street_Address_Returned, city_Returned, postal_Code_Returned);
+            int phone_Number_Returned = rs.getInt("Phone_Number");
+            boolean shares_line = Boolean.valueOf(rs.getString("Is_Shared_Household_line"));
+            boolean allow_medical_voicemail = Boolean.valueOf(rs.getString("Allow_Medical_Voicemail"));
+            ContactPreference contact_Info_Returned = new ContactPreference(phone_Number_Returned, shares_line, allow_medical_voicemail);
+            String email_Returned = rs.getString("Email");
+            String family_Doctor_Returned = rs.getString("Family_Doctor");
+            int health_Insurance_Returned = rs.getInt("Health_Insurance");
+            //Access the medical records
+            List <String> medical_Records_Returned = getMedicalRecords(id);
+            System.out.println("Patient found");
+            Patient CreatedPatient = new Patient(full_Name_Returned, id, password, birth_Date_Returned, address_Returned, contact_Info_Returned, email_Returned, family_Doctor_Returned, health_Insurance_Returned, medical_Records_Returned);
+            return CreatedPatient;
+        //If no row is selected, return null
+        }else{
+            System.out.println("No patients found with that id and password");
+            return null;
+        }
+    }catch(SQLException e){
+        System.out.println("SQL error occured: "+e);
+    }finally{
+        //Close statement and connection 
+        if(pstmt != null){
+            try{
+                pstmt.close();
+            }catch(SQLException e){
+                System.out.println("Could not close statement:\n"+e);
+            }
+        }
+        if(conn != null){
+            try{
+                conn.close();
+            }catch(SQLException e){
+                System.out.println("Could not close connection:\n"+e);
+            }
+        }
+    }
+    //Return null if an error occurs
+    return null;
+}
+
+
     //selectReceptionist returns the receptionist entry based on the name and password provided
     public Receptionist selectReceptionist(int RID, String password){
         Connection conn = null;
@@ -228,6 +305,68 @@ public class Database {
             //If a row is selected, return it as a Receptionist object
             if(rs.next()){
                 String full_Name_Returned = rs.getString("Full_Name");
+                LocalDate birth_Date_Returned = LocalDate.parse(rs.getString("Date_Of_Birth"));
+                String phone_Number_Returned = rs.getString("Phone_Number");
+                ContactPreference contact_Info_Returned = new ContactPreference(phone_Number_Returned);
+                String system_Username_Returned = rs.getString("System_Username");
+                int desk_Returned = rs.getInt("Desk_ID");
+                System.out.println("Receptionist found");
+                Receptionist CreatedReceptionist = new Receptionist(full_Name_Returned, RID, password, birth_Date_Returned, contact_Info_Returned, system_Username_Returned, desk_Returned);
+                return CreatedReceptionist;
+            //If no row is selected, return null
+            }else{
+                System.out.println("No receptionists found with that id and password");
+                return null;
+            }
+        }catch(SQLException e){
+            System.out.println("SQL Exception occurred: \n"+e);
+        }finally{
+            //Close statement and connection 
+            if(pstmt != null){
+                try{
+                    pstmt.close();
+                }catch(SQLException e){
+                    System.out.println("Could not close statement:\n"+e);
+                }
+            }
+            if(conn != null){
+                try{
+                    conn.close();
+                }catch(SQLException e){
+                    System.out.println("Could not close connection:\n"+e);
+                }
+            }
+        }
+        //Return null if an error occurs
+        return null;
+    }
+
+
+    //selectReceptionistValidate returns the receptionist entry based on the name and date of birth provided - used to validate new receptionists
+    public Receptionist selectReceptionistValidate(String fullName, LocalDate dateOfBirth){
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        try{
+            //Connect to database
+            conn = DriverManager.getConnection(connectionString);
+            //Define SQL query for receptionist
+            String receptionistSelect = """   
+                SELECT * 
+                FROM Receptionist R
+                WHERE R.Full_Name = ?
+                And R.dateOfBirth = ?
+                    """;
+            //Add arguments into dynamic SQL statement
+            pstmt = conn.prepareStatement(receptionistSelect);
+            pstmt.setInt(1, fullName);
+            pstmt.setString(2, dateOfBirth);
+            //Execute the command and store the result
+            ResultSet rs = pstmt.executeQuery();
+            //If a row is selected, return it as a Receptionist object
+            if(rs.next()){
+                String full_Name_Returned = rs.getString("Full_Name");
+                int RID = rs.getInt("Rid");
+                String password = rs.getString("Password");
                 LocalDate birth_Date_Returned = LocalDate.parse(rs.getString("Date_Of_Birth"));
                 String phone_Number_Returned = rs.getString("Phone_Number");
                 ContactPreference contact_Info_Returned = new ContactPreference(phone_Number_Returned);

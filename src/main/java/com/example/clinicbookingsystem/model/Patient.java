@@ -66,4 +66,25 @@ public class Patient extends Person {
         }
         return false;
     }
+
+    //Update address allows the Patient alone to update its own address
+    private void updateAddress(Address address){
+        this.address = Address;
+    }
+
+    //Request update address allows other users to request the patient to update its own address
+    public void requestUpdateAddress(Address address){
+        //Allow the patient to choose whether it updates its own state
+        if(!(address.getPostalCode().equals("")) && !(address.getCity().equals("")) && !(address.getStreetAddress().equals(""))){
+            updateAddress(address);
+        }
+    }
+
+    //Request update contact preference allows other users to request the patient to update its own contact info
+    public void requestUpdateContactPreference(ContactPreference contactInfo){
+        //Allow the patient to choose whether it updates its own state
+        if(!(contactInfo.getPhoneNumber().equals(""))){
+            updateContactPreference(contactInfo);
+        }
+    }
 }

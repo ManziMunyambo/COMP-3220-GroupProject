@@ -31,4 +31,9 @@ public abstract class Person {
     public LocalDate getDateOfBirth(){
         return dateOfBirth;
     }
+
+    //Update contact preference allows a Person to update its own contact preference
+    protected updateContactPreference(ContactPreference contactInfo){
+        this.contactInfo = contactInfo;
+    }
 }
