@@ -1,26 +1,14 @@
-import java.time.LocalDate;
+package com.example.clinicbookingsystem.model;
 
-// this is the Shared account and profile data and patient is just a type of user.
+// this is the Shared account and profile data - patient and receptionists are types of user.
 public abstract class User {
     private final String fullName;
-    private final String address;
-    private final String email;
-    private final LocalDate dateOfBirth;
-    private final String username;
+    private final int id;
     private final String password;
 
-    protected User(
-            String fullName,
-            String address,
-            String email,
-            LocalDate dateOfBirth,
-            String username,
-            String password) {
+    protected User(String fullName, int id, String password) {
         this.fullName = fullName;
-        this.address = address;
-        this.email = email;
-        this.dateOfBirth = dateOfBirth;
-        this.username = username;
+        this.id = id;
         this.password = password;
     }
 
@@ -28,20 +16,8 @@ public abstract class User {
         return fullName;
     }
 
-    public String getAddress() {
-        return address;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public LocalDate getDateOfBirth() {
-        return dateOfBirth;
-    }
-
-    public String getUsername() {
-        return username;
+    public int getID() {
+        return id;
     }
 
     public String getPassword() {
