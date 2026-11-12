@@ -13,7 +13,7 @@ Patient
 - Postal_Code (Text)
 - Email (Text)
 - Family_Doctor (Text)
-- Health_Insurance (Text)
+- Health_Insurance (Integer)
 
 Receptionist
 - Full_Name (Text)

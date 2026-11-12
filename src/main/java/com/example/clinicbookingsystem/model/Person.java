@@ -34,6 +34,10 @@ public abstract class Person {
         return dateOfBirth;
     }
 
+    public ContactPreference getContactInfo(){
+        return contactInfo;
+    }
+
     //Update contact preference allows a Person to update its own contact preference
     protected void updateContactPreference(ContactPreference contactInfo){
         this.contactInfo = contactInfo;

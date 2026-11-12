@@ -3,6 +3,8 @@ package com.example.clinicbookingsystem.model;
 import java.time.LocalDate;
 
 import com.example.clinicbookingsystem.ContactPreference;
+import com.example.clinicbookingsystem.model.Person;
+
 
 public class Receptionist extends StaffMember{
     private int deskId;

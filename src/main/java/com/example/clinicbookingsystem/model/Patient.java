@@ -7,6 +7,11 @@ import java.util.Collections;
 import java.util.List;
 import java.time.LocalDate;
 
+import com.example.clinicbookingsystem.Address;
+import com.example.clinicbookingsystem.ContactPreference;
+import com.example.clinicbookingsystem.model.Person;
+
+
 /** Patient-specific data plus the notes API already used by patient registration. */
 public class Patient extends Person {
     private Address address;
@@ -26,14 +31,6 @@ public class Patient extends Person {
         this.healthInsurance = healthInsurance;
     }
 
-    public String getAddress() {
-        return address;
-    }
-
-    public int getPhoneNumber() {
-        return phoneNumber;
-    }
-
     public String getEmail() {
         return email;
     }
@@ -44,6 +41,10 @@ public class Patient extends Person {
 
     public int getHealthInsurance() {
         return healthInsurance;
+    }
+
+    public Address getAddress(){
+        return address;
     }
 
     // Calculate age from the birth date so it does not become stale over time.
@@ -69,7 +70,7 @@ public class Patient extends Person {
 
     //Update address allows the Patient alone to update its own address
     private void updateAddress(Address address){
-        this.address = Address;
+        this.address = address;
     }
 
     //Request update address allows other users to request the patient to update its own address

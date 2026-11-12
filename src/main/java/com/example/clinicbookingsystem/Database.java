@@ -12,6 +12,8 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import com.example.clinicbookingsystem.model.Patient;
 import com.example.clinicbookingsystem.model.Receptionist;
+import com.example.clinicbookingsystem.Address;
+import com.example.clinicbookingsystem.ContactPreference;
 
 //Import lists
 import java.util.List;
@@ -165,7 +167,7 @@ public class Database {
                 String city_Returned = rs.getString("City");
                 String postal_Code_Returned = rs.getString("Postal_Code");
                 Address address_Returned = new Address(street_Address_Returned, city_Returned, postal_Code_Returned);
-                int phone_Number_Returned = rs.getInt("Phone_Number");
+                String phone_Number_Returned = rs.getString("Phone_Number");
                 boolean shares_line = Boolean.valueOf(rs.getString("Is_Shared_Household_line"));
                 boolean allow_medical_voicemail = Boolean.valueOf(rs.getString("Allow_Medical_Voicemail"));
                 ContactPreference contact_Info_Returned = new ContactPreference(phone_Number_Returned, shares_line, allow_medical_voicemail);
@@ -175,7 +177,11 @@ public class Database {
                 //Access the medical records
                 List <String> medical_Records_Returned = getMedicalRecords(id);
                 System.out.println("Patient found");
-                Patient CreatedPatient = new Patient(full_Name_Returned, id, password, birth_Date_Returned, address_Returned, contact_Info_Returned, email_Returned, family_Doctor_Returned, health_Insurance_Returned, medical_Records_Returned);
+                Patient CreatedPatient = new Patient(full_Name_Returned, birth_Date_Returned, contact_Info_Returned, id, password, address_Returned, email_Returned, family_Doctor_Returned, health_Insurance_Returned);
+                //Add the medical records to the Patient
+                for(String medicalRecord: medical_Records_Returned){
+                    CreatedPatient.addMedicalRecord(medicalRecord);
+                }
                 return CreatedPatient;
             //If no row is selected, return null
             }else{
@@ -224,11 +230,12 @@ public Patient selectPatientValidate(String fullName, Address address, LocalDate
                 """;
         //Add arguments into dynamic SQL statement
         pstmt = conn.prepareStatement(patientSelect);
-        pstmt.setInt(1, fullName);
-        pstmt.setString(2, address.streetAddress);
-        pstmt.setString(3, address.city);
-        pstmt.setString(4, address.postalCode);
-        pstmt.setString(5, dateOfBirth);
+        pstmt.setString(1, fullName);
+        pstmt.setString(2, address.getStreetAddress());
+        pstmt.setString(3, address.getCity());
+        pstmt.setString(4, address.getPostalCode());
+        String passed_DOB = dateOfBirth.toString();
+        pstmt.setString(5, passed_DOB);
         //Execute the command and store the result
         ResultSet rs = pstmt.executeQuery();
         //If a row is selected, return it as a Receptionist object
@@ -241,7 +248,7 @@ public Patient selectPatientValidate(String fullName, Address address, LocalDate
             String city_Returned = rs.getString("City");
             String postal_Code_Returned = rs.getString("Postal_Code");
             Address address_Returned = new Address(street_Address_Returned, city_Returned, postal_Code_Returned);
-            int phone_Number_Returned = rs.getInt("Phone_Number");
+            String phone_Number_Returned = rs.getString("Phone_Number");
             boolean shares_line = Boolean.valueOf(rs.getString("Is_Shared_Household_line"));
             boolean allow_medical_voicemail = Boolean.valueOf(rs.getString("Allow_Medical_Voicemail"));
             ContactPreference contact_Info_Returned = new ContactPreference(phone_Number_Returned, shares_line, allow_medical_voicemail);
@@ -251,7 +258,11 @@ public Patient selectPatientValidate(String fullName, Address address, LocalDate
             //Access the medical records
             List <String> medical_Records_Returned = getMedicalRecords(id);
             System.out.println("Patient found");
-            Patient CreatedPatient = new Patient(full_Name_Returned, id, password, birth_Date_Returned, address_Returned, contact_Info_Returned, email_Returned, family_Doctor_Returned, health_Insurance_Returned, medical_Records_Returned);
+            Patient CreatedPatient = new Patient(full_Name_Returned, birth_Date_Returned, contact_Info_Returned, id, password, address_Returned, email_Returned, family_Doctor_Returned, health_Insurance_Returned);
+            //Add medical records for the patient
+            for(String medicalRecord: medical_Records_Returned){
+                CreatedPatient.addMedicalRecord(medicalRecord);
+            }
             return CreatedPatient;
         //If no row is selected, return null
         }else{
@@ -358,8 +369,9 @@ public Patient selectPatientValidate(String fullName, Address address, LocalDate
                     """;
             //Add arguments into dynamic SQL statement
             pstmt = conn.prepareStatement(receptionistSelect);
-            pstmt.setInt(1, fullName);
-            pstmt.setString(2, dateOfBirth);
+            pstmt.setString(1, fullName);
+            String passed_DOB = dateOfBirth.toString();
+            pstmt.setString(2, passed_DOB);
             //Execute the command and store the result
             ResultSet rs = pstmt.executeQuery();
             //If a row is selected, return it as a Receptionist object
@@ -424,19 +436,19 @@ public Patient selectPatientValidate(String fullName, Address address, LocalDate
             pstmt.setString(3, P.getPassword());
             String birthDate = P.getDateOfBirth().toString();
             pstmt.setString(4, birthDate);
-            pstmt.setString(5, P.contactInfo.getPhoneNumber());
-            pstmt.setString(6, P.contactInfo.getIsSharedHousehold().toString());
-            pstmt.setString(7, P.contactInfo.getAllowMedicalVoicemail().toString());
-            pstmt.setString(8, P.address.getStreetAddress());
-            pstmt.setString(9, P.address.getCity());
-            pstmt.setString(10, P.address.getPostalCode());
+            pstmt.setString(5, P.getContactInfo().getPhoneNumber());
+            pstmt.setString(6, Boolean.toString(P.getContactInfo().getIsSharedHouseholdLine()));
+            pstmt.setString(7, Boolean.toString(P.getContactInfo().getAllowMedicalRecord()));
+            pstmt.setString(8, P.getAddress().getStreetAddress());
+            pstmt.setString(9, P.getAddress().getCity());
+            pstmt.setString(10, P.getAddress().getPostalCode());
             pstmt.setString(11, P.getEmail());
             pstmt.setString(12, P.getFamilyDoctor());
             pstmt.setInt(13, P.getHealthInsurance());
             //Execute SQL query and store the number of rows impacted
             int rowsAdded = pstmt.executeUpdate();
             //Add medical notes to the MedicalRecord table
-            createMedicalRecord(P.medicalRecords, pid);
+            createMedicalRecord(P.getMedicalRecords(), pid);
             if(rowsAdded == 1){
                 System.out.println("1 row sucessfully added to Patient table");
                 return 1;
@@ -487,10 +499,11 @@ public Patient selectPatientValidate(String fullName, Address address, LocalDate
             //Generate a unique id to create for the receptionist
             pstmt.setInt(2, generateUniqueID("Receptionist"));
             pstmt.setString(3, R.getPassword());
-            pstmt.setString(4, R.getDateOfBirth());
-            pstmt.setString(5, R.contactInfo.getPhoneNumber());
+            String passed_DOB = R.getDateOfBirth().toString();
+            pstmt.setString(4, passed_DOB);
+            pstmt.setString(5, R.getContactInfo().getPhoneNumber());
             pstmt.setString(6, R.getSystemUsername());
-            pstmt.setString(7, R.getDeskID());
+            pstmt.setInt(7, R.getDeskId());
             //Execute SQL query and store the number of rows impacted
             int rowsAdded = pstmt.executeUpdate();
             if(rowsAdded == 1){

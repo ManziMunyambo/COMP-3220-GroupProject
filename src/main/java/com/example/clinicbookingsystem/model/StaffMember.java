@@ -8,7 +8,7 @@ public class StaffMember extends Person{
     private String systemUsername;
 
     //constructor
-    public StaffMember(String fullName, LocalDate dateOfBirth, ContactPreference contactPreference, int id, String password, String staffID, String systemUsername){
+    public StaffMember(String fullName, LocalDate dateOfBirth, ContactPreference contactPreference, int id, String password, String systemUsername){
         super(fullName, dateOfBirth, contactPreference, id, password);
         this.staffID = staffID;
         this.systemUsername = systemUsername;
